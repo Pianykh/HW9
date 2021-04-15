@@ -15,7 +15,7 @@ namespace Ex2
             _rates.Add("EURToRUB", 90.8588);
             _rates.Add("EURToUAH", 33.0213);
             _rates.Add("EURToCNY", 7.8221);
-            
+
             _rates.Add("USDToEUR", 0.8419);
             _rates.Add("USDToRUB", 75.8212);
             _rates.Add("USDToCNY", 6.5322);
@@ -36,12 +36,26 @@ namespace Ex2
             _rates.Add("CNYToEUR", 0.1278);
             _rates.Add("CNYToUSD", 0.1531);
         }
-        public static void Exchange(string firstCode, string secondCode, double money)
+        public static void Exchange(Wallet sellCurrencyWallet, Wallet buyCurrencyWallet, double money)
         {
-            Console.WriteLine(
-                _rates.TryGetValue(firstCode.ToUpper() + "To" + secondCode.ToUpper(), out var exchangedMoney)
-                    ? $"{money} {firstCode} is {exchangedMoney} {secondCode}"
-                    : "Can not exchange the same currencies");
+            if (_rates.TryGetValue(sellCurrencyWallet.Currency + "To" + buyCurrencyWallet.Currency,
+                out var exchangedMoney))
+            {
+                sellCurrencyWallet.AmountOfMoney -= money;
+                buyCurrencyWallet.AmountOfMoney += exchangedMoney*money;
+                Console.WriteLine($"You changed {money} {sellCurrencyWallet.Currency} for {exchangedMoney*money} {buyCurrencyWallet.Currency}" +
+                                  $" with {GetRate(sellCurrencyWallet.Currency, buyCurrencyWallet.Currency)} rate");
+            }
+            else
+                Console.WriteLine("Cannot exchange same currencies");
+        }
+
+        public static double GetRate(string firstCurrency, string secondCurrency)
+        {
+            if (_rates.TryGetValue(firstCurrency + "To" + secondCurrency, out var rate))
+                return rate;
+            return 0;
+            
         }
     }
 }

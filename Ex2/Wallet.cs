@@ -12,5 +12,11 @@ namespace Ex2
             AmountOfMoney = 0;
             Currency = currency;
         }
+
+        public Wallet(string currency, double money)
+        {
+            AmountOfMoney = money;
+            Currency = currency;
+        }
     }
 }

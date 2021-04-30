@@ -17,5 +17,18 @@ namespace Ex2.Tests
 
             Assert.Equal(expectedRate, actualRate);
         }
+        [Fact]
+        public void Exchange_ShouldExchangeMoney()
+        {
+            var firstWallet = new Wallet("UAH", 50);
+            var secondWallet = new Wallet("RUB", 0);
+
+            Exchanger.Exchange(firstWallet, secondWallet, 50);
+
+            Assert.Equal(0, firstWallet.AmountOfMoney);
+            Assert.Equal(50 * 2.7121, secondWallet.AmountOfMoney);
+        }
+
+
     }
 }

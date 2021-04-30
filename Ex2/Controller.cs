@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace Ex2
 {
@@ -56,14 +58,15 @@ namespace Ex2
         }
 
         private static void Authorize()
-        {
-            Console.WriteLine("Please, enter login:");
+        {             
+            Console.WriteLine("Please, enter login:");            
             var login = Console.ReadLine();
-            Console.WriteLine("Please, enter password:");
-            var password = Console.ReadLine();
-
+            Console.WriteLine("Please, enter password:");            
+            var password = Console.ReadLine();            
+           
             if (UserDAO.GetUser(login, password) != null)
             {
+                Thread.Sleep(1000);
                 _loggedUser = UserDAO.GetUser(login, password);
                 Console.WriteLine($"Successful authorization. Welcome, [{login}]");
             }
